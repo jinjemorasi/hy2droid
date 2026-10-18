@@ -70,11 +70,13 @@ jobs:
       - name: Build APK (otherRelease)
         run: |
           export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$JAVA_HOME/bin:$PATH
           # Generate a throwaway release keystore for CI builds
-          keytool -genkey -v -keystore app/release.keystore \
+          keytool -genkey -keystore app/release.keystore \
             -alias hy2droid -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass android -keypass android \
-            -dname "CN=Hy2Droid, OU=CI, O=Hy2Droid, C=DE" > /dev/null 2>&1
+            -dname "CN=Hy2Droid, OU=CI, O=Hy2Droid, C=DE"
+          ls -lh app/release.keystore
           PROPS=$(printf 'KEYSTORE_PASS=android\nALIAS_NAME=hy2droid\nALIAS_PASS=android' | base64 -w0)
           export LOCAL_PROPERTIES=$PROPS
           chmod +x gradlew
