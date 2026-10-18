@@ -67,14 +67,21 @@ jobs:
             ./experimental/libbox
           ls -lh $GITHUB_WORKSPACE/app/libs/libbox.aar
 
-      - name: Build APK (otherDebug)
+      - name: Build APK (otherRelease)
         run: |
           export ANDROID_HOME=$HOME/android-sdk
+          # Generate a throwaway release keystore for CI builds
+          keytool -genkey -v -keystore app/release.keystore \
+            -alias hy2droid -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Hy2Droid, OU=CI, O=Hy2Droid, C=DE" > /dev/null 2>&1
+          PROPS=$(printf 'KEYSTORE_PASS=android\nALIAS_NAME=hy2droid\nALIAS_PASS=android' | base64 -w0)
+          export LOCAL_PROPERTIES=$PROPS
           chmod +x gradlew
-          ./gradlew assembleOtherDebug --no-daemon
+          ./gradlew assembleOtherRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: hy2droid-sfa-debug-apk
-          path: app/build/outputs/apk/other/debug/*.apk
+          name: hy2droid-sfa-release-apk
+          path: app/build/outputs/apk/other/release/*.apk
