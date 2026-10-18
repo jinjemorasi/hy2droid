@@ -60,6 +60,7 @@ jobs:
           go get -tool golang.org/x/mobile/cmd/gomobile@latest
           gomobile bind -o $GITHUB_WORKSPACE/app/libs/libbox.aar \
             -target=android \
+            -androidapi 24 \
             -javapkg=io.nekohasekai \
             -tags with_gvisor,with_quic,with_utls \
             -ldflags "-X github.com/sagernet/sing-box/constant.Version=v1.15.0-alpha.12 -X github.com/sagernet/sing-box/constant.VersionCode=745 -checklinkname=0 -s -w -buildid=" \
