@@ -56,6 +56,8 @@ jobs:
           export ANDROID_NDK_HOME=$HOME/android-sdk/ndk/28.0.12433566
           mkdir -p app/libs
           cd /tmp/sing-box
+          go get -tool golang.org/x/mobile/cmd/gobind@latest
+          go get -tool golang.org/x/mobile/cmd/gomobile@latest
           gomobile bind -o $GITHUB_WORKSPACE/app/libs/libbox.aar \
             -target=android \
             -javapkg=io.nekohasekai \
