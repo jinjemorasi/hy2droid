@@ -59,7 +59,7 @@ jobs:
           go get -tool golang.org/x/mobile/cmd/gobind@latest
           go get -tool golang.org/x/mobile/cmd/gomobile@latest
           gomobile bind -o $GITHUB_WORKSPACE/app/libs/libbox.aar \
-            -target=android \
+            -target=android/arm64,android/arm \
             -androidapi 24 \
             -javapkg=io.nekohasekai \
             -tags with_gvisor,with_quic,with_utls \
